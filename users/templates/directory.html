@@ -1,0 +1,20 @@
+{%extends 'base.html' %}
+{% block content %}
+<h2> Therapist Directory</h2>
+<form method="get">
+    <input type="text", name="q" placeholder="Search by speciality...">
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+  {% for therapist in therapists %} 
+    <li>
+        <a href="{%url 'therapist_detail' therapists.pk %}">
+        {{ therapist.user.username }} - {{ therapist.pk % }}
+        </a>
+    </li>
+  {% empty % }
+    <li>oooops!!!, No therapists found.</li>
+   {% endfor %} 
+</ul>
+{% endblock %}

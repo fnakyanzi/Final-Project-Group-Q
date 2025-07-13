@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MindCare - Home</title>
+</head>
+<body>
+    <h1>Welcome to MindCare</h1>
+    <p>Your mental health support platform.</p>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}! (Role: {{ user_group|default:"No role assigned" }})</p>
+        {% if user_group == "Admin" %}
+            <p><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></p>
+        {% elif user_group == "Therapist" %}
+            <p><a href="#">View Appointments (Coming Soon)</a></p>
+        {% elif user_group == "Client" %}
+            <p><a href="#">Book Appointment (Coming Soon)</a></p>
+        {% endif %}
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <a href="{% url 'register' %}">Register</a> | 
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Your Appointments</h2>
+
+<div class="row">
+    {% for appt in appointments %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ appt.client.username }}</h5>
+                <p class="card-text">
+                    <strong>Date:</strong> {{ appt.date|date:"M d, Y H:i" }}<br>
+                    <strong>Status:</strong> 
+                    <span class="badge 
+                        {% if appt.status == 'pending' %} bg-secondary
+                        {% elif appt.status == 'confirmed' %} bg-primary
+                        {% elif appt.status == 'completed' %} bg-success
+                        {% elif appt.status == 'cancelled' %} bg-danger
+                        {% endif %}">
+                        {{ appt.status|capfirst }}
+                    </span>
+                </p>
+                <a href="{% url 'mark_appointment_status' appt.id 'confirmed' %}" class="btn btn-outline-primary btn-sm">Confirm</a>
+                <a href="{% url 'mark_appointment_status' appt.id 'completed' %}" class="btn btn-outline-success btn-sm">Complete</a>
+                <a href="{% url 'mark_appointment_status' appt.id 'cancelled' %}" class="btn btn-outline-danger btn-sm">Cancel</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No appointments scheduled yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
